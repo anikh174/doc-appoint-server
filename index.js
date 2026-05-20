@@ -5,7 +5,7 @@ dotenv.config();
 
 const app = express();
 app.use(cors());
-app.use(express.json())
+app.use(express.json());
 const port = process.env.PORT || 5000;
 
 app.get("/", (req, res) => {
@@ -31,7 +31,7 @@ async function run() {
 
     const db = client.db("doc-appoint");
     const doctorsCollections = db.collection("doctors");
-    const bookingCollections = db.collection("booking")
+    const bookingCollections = db.collection("booking");
 
     // all-doctors
     app.get("/doctors", async (req, res) => {
@@ -56,25 +56,39 @@ async function run() {
     });
 
     // bookingInfo
-    app.post('/booking', async(req, res)=>{
-      const bookingData = req.body
-      console.log(bookingData)
-      const result = await bookingCollections.insertOne(bookingData)
-      res.json(result)
-    })
+    app.post("/booking", async (req, res) => {
+      const bookingData = req.body;
+      console.log(bookingData);
+      const result = await bookingCollections.insertOne(bookingData);
+      res.json(result);
+    });
 
     // get bookingInfo
-    app.get('/booking', async(req, res)=>{
-      const result = await bookingCollections.find().toArray()
-      res.json(result)
-    })
+    app.get("/booking", async (req, res) => {
+      const result = await bookingCollections.find().toArray();
+      res.json(result);
+    });
 
     // delete api
-    app.delete('/booking/:id', async(req, res)=>{
-      const {id} = req.params;
-      const result = await bookingCollections.deleteOne({_id: new ObjectId(id)})
-      res.json(result)
-    })
+    app.delete("/booking/:id", async (req, res) => {
+      const { id } = req.params;
+      const result = await bookingCollections.deleteOne({
+        _id: new ObjectId(id),
+      });
+      res.json(result);
+    });
+
+    // edit bookingInfo
+    app.patch("/booking/:id", async (req, res) => {
+      const { id } = req.params;
+      const updateData = req.body
+      const result = await bookingCollections.updateOne({
+        _id: new ObjectId(id)
+      },
+      {$set: updateData}
+    );
+      res.json(result);
+    });
 
     // Send a ping to confirm a successful connection
     // await client.db("admin").command({ ping: 1 });
