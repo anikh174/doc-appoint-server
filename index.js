@@ -82,7 +82,7 @@ async function run() {
     });
 
     // specific doctors
-    app.get("/doctors/:id", verifyToken, async (req, res) => {
+    app.get("/doctors/:id", async (req, res) => {
       const { id } = req.params;
       const Id = { _id: new ObjectId(id) };
       const result = await doctorsCollections.findOne(Id);
