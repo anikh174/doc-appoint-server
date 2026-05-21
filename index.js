@@ -97,7 +97,7 @@ async function run() {
     });
 
     // bookingInfo
-    app.post("/booking", async (req, res) => {
+    app.post("/booking", verifyToken, async (req, res) => {
       const bookingData = req.body;
       console.log(bookingData);
       const result = await bookingCollections.insertOne(bookingData);
