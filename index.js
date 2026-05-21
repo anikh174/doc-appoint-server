@@ -75,7 +75,7 @@ async function run() {
     const bookingCollections = db.collection("booking");
 
     // all-doctors
-    app.get("/doctors", async (req, res) => {
+    app.get("/doctors", verifyToken, async (req, res) => {
       const cursor = doctorsCollections.find();
       const result = await cursor.toArray();
       res.send(result);
@@ -105,7 +105,7 @@ async function run() {
     });
 
     // get bookingInfo
-    app.get("/booking", async (req, res) => {
+    app.get("/booking", verifyToken, async (req, res) => {
       const result = await bookingCollections.find().toArray();
       res.json(result);
     });
