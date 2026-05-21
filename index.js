@@ -25,7 +25,9 @@ const client = new MongoClient(uri, {
   },
 });
 
-const JWKS = createRemoteJWKSet(new URL("http://localhost:3000/api/auth/jwks"));
+const JWKS = createRemoteJWKSet(
+  new URL(`${process.env.CLIENT_URL}/api/auth/jwks`),
+);
 
 // verifyToken
 const verifyToken = async (req, res, next) => {
@@ -56,7 +58,7 @@ const verifyToken = async (req, res, next) => {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
 
     const db = client.db("doc-appoint");
     const doctorsCollections = db.collection("doctors");
@@ -64,29 +66,6 @@ async function run() {
 
     // all-doctors
     app.get("/doctors", async (req, res) => {
-      // const { search } = req.query;
-      // let cursor;
-      // if (search) {
-      //   cursor = await doctorsCollections.find({
-      //     $or: [
-      //       {
-      //         name: {
-      //           $regex: search,
-      //           $options: "i",
-      //         },
-      //       },
-      //       {
-      //         specialty: {
-      //           $regex: search,
-      //           $options: "i",
-      //         },
-      //       },
-      //     ],
-      //   });
-      // } else {
-      //   const cursor = doctorsCollections.find();
-      // }
-
       const cursor = doctorsCollections.find();
       const result = await cursor.toArray();
       res.send(result);
