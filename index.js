@@ -75,14 +75,14 @@ async function run() {
     const bookingCollections = db.collection("booking");
 
     // all-doctors
-    app.get("/doctors", verifyToken, async (req, res) => {
+    app.get("/doctors", async (req, res) => {
       const cursor = doctorsCollections.find();
       const result = await cursor.toArray();
       res.send(result);
     });
 
     // specific doctors
-    app.get("/doctors/:id", async (req, res) => {
+    app.get("/doctors/:id", verifyToken, async (req, res) => {
       const { id } = req.params;
       const Id = { _id: new ObjectId(id) };
       const result = await doctorsCollections.findOne(Id);
@@ -105,7 +105,7 @@ async function run() {
     });
 
     // get bookingInfo
-    app.get("/booking", verifyToken, async (req, res) => {
+    app.get("/booking", async (req, res) => {
       const result = await bookingCollections.find().toArray();
       res.json(result);
     });
