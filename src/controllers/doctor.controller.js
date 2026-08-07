@@ -20,7 +20,7 @@ function buildDoctorFilter(query) {
 }
 
 async function listDoctors(req, res) {
-  const { doctors } = collections();
+  const { doctors } = await collections();
   const filter = buildDoctorFilter(req.query);
 
   const data = await doctors.find(filter).toArray();
@@ -28,7 +28,7 @@ async function listDoctors(req, res) {
 }
 
 async function getDoctor(req, res) {
-  const { doctors } = collections();
+  const { doctors } = await collections();
   const id = toObjectId(req.params.id);
 
   if (!id) {
@@ -44,7 +44,7 @@ async function getDoctor(req, res) {
 }
 
 async function topSpecialists(req, res) {
-  const { doctors } = collections();
+  const { doctors } = await collections();
   const data = await doctors.find().sort({ rating: -1 }).limit(3).toArray();
   return success(res, data);
 }

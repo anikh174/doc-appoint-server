@@ -35,7 +35,8 @@ function getCollection(name) {
   return getDb().collection(name);
 }
 
-function collections() {
+async function collections() {
+  await connect();
   return {
     doctors: getCollection("doctors"),
     bookings: getCollection("booking"),

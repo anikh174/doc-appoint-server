@@ -1,23 +1,23 @@
-const { collections } = require("../db");
+﻿const { collections } = require("../db");
 const { success } = require("../utils/api-response");
 const { AppError } = require("../utils/app-error");
 const { toObjectId } = require("../utils/validate-object-id");
 
 async function createBooking(req, res) {
-  const { bookings } = collections();
+  const { bookings } = await collections();
   const bookingData = req.body;
   const result = await bookings.insertOne(bookingData);
   return success(res, result, 201);
 }
 
 async function listBookings(req, res) {
-  const { bookings } = collections();
+  const { bookings } = await collections();
   const data = await bookings.find().sort({ _id: -1 }).toArray();
   return success(res, data);
 }
 
 async function updateBooking(req, res) {
-  const { bookings } = collections();
+  const { bookings } = await collections();
   const id = toObjectId(req.params.id);
 
   if (!id) {
@@ -32,7 +32,7 @@ async function updateBooking(req, res) {
 }
 
 async function deleteBooking(req, res) {
-  const { bookings } = collections();
+  const { bookings } = await collections();
   const id = toObjectId(req.params.id);
 
   if (!id) {
@@ -44,3 +44,4 @@ async function deleteBooking(req, res) {
 }
 
 module.exports = { createBooking, listBookings, updateBooking, deleteBooking };
+
