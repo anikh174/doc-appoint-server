@@ -1,13 +1,13 @@
 {
   "name": "doc-appoint-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "REST API for the DocAppoint doctor appointment booking platform",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "dev": "node --watch index.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["docappoint", "appointment", "booking", "express", "mongodb"],
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.6",
